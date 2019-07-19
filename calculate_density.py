@@ -21,18 +21,19 @@ for line in fobj:
 fobj.close()
 xyzArray = np.array(xyzList)
 paramArray = np.array(paramList)
-
 print("array created")
 
-tree3D = KDTree(xyzArray)
 
+# Calculate KDTree and Kernel Density
+
+tree3D = KDTree(xyzArray)
 print('tree created')
 densityArray = tree3D.kernel_density(xyzArray, h=1)
-
 print("density calculated")
 
-fobj_out = open("C:/Users/roman/PycharmProjects/PC_Craters/txt_files/natters_clip_density.txt", "w")
+# Write data to new txt file
 
+fobj_out = open("C:/Users/roman/PycharmProjects/PC_Craters/txt_files/natters_clip_density.txt", "w")
 for i in range(len(xyzArray)):
     point = xyzArray[i]
 

@@ -7,10 +7,10 @@ directory = r'C:\Users\roman\Documents\Masterarbeit\relevant_LAS_files'
 filename = 'Ground_PC_Mittelgeb_234000_78000.las'
 
 
-xmin = 79300
-xmax = 79950
-ymin = 234275
-ymax = 234950
+xmin = 80600
+xmax = 81050
+ymin = 234050
+ymax = 234380
 
 
 
@@ -24,14 +24,14 @@ print('points full file:', len(dataset))
 
 count = 0
 total_count = 0
-fobj_out = open('txt_files/Training_clip_Natters.txt', 'w')
+fobj_out = open('txt_files/Test_Clip_Lans.txt', 'w')
 for line in dataset:
     x = line[0]
     y = line[1]
     z = line[2]
 
     if xmin < x < xmax and ymin < y < ymax:
-        fobj_out.write("%1.3f\t%1.3f\t%1.3f\t%1.3f\t%1.3f\t%1.3f\n" %(line[0], line[1], line[2], line[3], line[4], line[5]))
+        fobj_out.write("%1.3f\t%1.3f\t%1.3f\n" %(line[0], line[1], line[2]))
         count += 1
     total_count +=1
     if total_count % 200000 == 0:
