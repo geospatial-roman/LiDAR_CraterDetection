@@ -2,162 +2,139 @@ import numpy as np
 import pandas as pd
 from sklearn.neighbors import KDTree
 from math import *
+from collections import Counter
+import matplotlib.pyplot as plt
+from utils import calculations, plotting
+import itertools
+
+
+
+from mpl_toolkits.mplot3d import Axes3D
+import warnings
+
 
 
 ########################################################
 ####             Functions                ##############
 ########################################################
 
-def getCovarianceMatrix(PointArray):
-    F_mean = np.mean(PointArray, axis=0)
-    CovMat = np.matrix([[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]])
-    for P in PointArray:
-        CovMat[0, 0] += ((P[0] - F_mean[0]) ** 2)
-        CovMat[0, 1] += (P[0] - F_mean[0]) * (P[1] - F_mean[1])
-        CovMat[0, 2] += (P[0] - F_mean[0]) * (P[2] - F_mean[2])
 
-        CovMat[1, 0] += (P[0] - F_mean[0]) * (P[1] - F_mean[1])
-        CovMat[1, 1] += ((P[1] - F_mean[1]) ** 2)
-        CovMat[1, 2] += (P[1] - F_mean[1]) * (P[2] - F_mean[2])
+def concave(input, plot_plane= False):
+    """
 
-        CovMat[2, 0] += (P[0] - F_mean[0]) * (P[2] - F_mean[2])
-        CovMat[2, 1] += (P[1] - F_mean[1]) * (P[2] - F_mean[2])
-        CovMat[2, 2] += ((P[2] - F_mean[2]) ** 2)
-    return CovMat, F_mean
+    :param input: input csv with segmented points
+    :param plot_plane: boolean. if true every crater will be plotted
+    :return: dist and sign for each segment, positive: convex, negative: concave
+    """
 
+    if isinstance(input, str):
+        input_df = pd.read_csv(input, sep=";")
+    else:
+        input_df = input
 
-def GetEigenInfos(CovMat):
-    # get eigenvalues and eigenvectors
-    eigenvalues_unsorted, eigenvectors_unsorted = np.linalg.eig(CovMat)
+    input_df.dropna()
 
-    # sort eigenvalues and eigenvectors
-    idx = eigenvalues_unsorted.argsort()[::-1]
-    eigenvalues = eigenvalues_unsorted[idx]
-    eigenvectors = eigenvectors_unsorted[:, idx]
-
-    # write out and reformat values
-    eL = eigenvalues[0]
-    eI = eigenvalues[1]
-    eS = eigenvalues[2]
-    evecL = np.array(eigenvectors[:, 0].T)
-    evecI = np.array(eigenvectors[:, 1].T)
-    evecS = np.array(eigenvectors[:, 2].T)
-
-
-    return eL / eL, eI / eL, eS / eL, evecL[0], evecI[0], evecS[0]
-
-
-def DistToPlane(Normal,PlanePt,SearchPt):
-    Normal /= np.linalg.norm(Normal)
-    dist = fabs(np.dot(Normal, PlanePt-SearchPt))
-    return dist
-
-def region_growing(input, id_field):
-
-    input_df = pd.read_csv(input, sep='\t')
-    xyzArray = input_df.filter(items=['X','Y','Z']).to_numpy()
-    tree3D = KDTree(xyzArray)
-    LabelArray = np.array(input_df[id_field])
-    print(LabelArray)
-    segmentIds = [-1]*len(xyzArray)
-    segmentArray = np.array(segmentIds)
-    #print(segmentIds)
-    searchRad = 1.5
-    SegID = 0
-    print('Points: ', len(xyzArray))
-    for i in range(len(xyzArray)):
-
-        if segmentArray[i] != -1:
-            continue
-        if (LabelArray[i] != 0):
-            SegID += 1
-            #print(SegID)
-
-            # print("loop over point ", i)
-            Shoots = [i]
-            count = 1
-            while (len(Shoots) != 0):
-                Seeds = Shoots
-                Shoots = []
-                # print(Shoots)
-                #print("Shoot: ", count)
-                #print("Seeds: ", len(Seeds))
-                for seedID in Seeds:  # aus shoots werdem seeds um such zu vergrößern
-
-                    segmentArray[seedID] = SegID
-                    SeedPoint = xyzArray[seedID]  # suche für jeden seed punkt die Nachbarn und appende sie zu Shoots list
-                    SearchPt = [SeedPoint]
-
-                    IdxList = tree3D.query_radius(SearchPt,searchRad)  # findet alle punkte die in Search Radius um SearchPoint liegen und returned die indizes (liste)
-                    #print('idxList: ', len(IdxList))
-                    #print(IdxList[0])
-                    #if len(IdxList) < 4:
-                    #   continue
-                    for j in range(len(IdxList[0])):
-                        # print(segmentIds[idx])
-                        idx = IdxList[0][j]
-                        #print('idx:', idx)
-                        #print('Label:' ,LabelArray[idx])
-
-                        if (segmentArray[idx] != -1):
-                            continue
-
-                        if LabelArray[idx] != 0:
-                            Shoots.append(idx)  # punkte die auf der Projezierten Ebene liegen werden der Shoots liste angehänge und in der nächsten iteration als seeds verwendet
-                            segmentArray[idx] = SegID
-                count += 1
-                # print(Shoots)
-                # print(Seeds)
-
-        if i % 50000 == 0:
-            print(i)
-
-    segmented_df = input_df
-    segmented_df['SegmentID'] = segmentArray
-    segmented_df.loc[segmented_df['SegmentID'] < 0, 'SegmentID'] = 0
-    return segmented_df
-
-
-def concave(input, output):
-    input_df = pd.read_csv(input, sep="\t")
     xyzArray = input_df.filter(items=['X', 'Y', 'Z']).to_numpy()
+    xyArray = input_df.filter(items=['X', 'Y']).to_numpy()
     segmentIDs = input_df['SegmentID']
     normalArray = input_df.filter(items=['Nx', 'Ny', 'Nz']).to_numpy()
+    kdtree = KDTree(xyArray)
 
-    for id in segmentIDs:
-        point_set = []
-        for i in range(len(xyzArray)):
-            if segmentIDs[i] == id:
-                point_set.append(i)
+    out_list = []
+    sorted_set = set(sorted(segmentIDs, key=Counter(segmentIDs).get, reverse=False))
 
-    #xyzSet = np.array[xyzArray[j] for j in point_set]
-    CovMat, F_mean = getCovarianceMatrix(point_set)
-    eL, eI, eS, evecL , evecI ,evecS = GetEigenInfos(CovMat)
+    for id in sorted_set:
+        if id == 0:
+            continue
 
-    Normalvector = evecS
-    X = [x[0] for x in point_set]
-    Y = [x[1] for x in point_set]
-    Z = [x[2] for x in point_set]
-    mean_point = [X.mean(), Y.mean()]
-    kdtree = KDTree(np.dstack((X,Y)).tolist())
-    check_point = kdtree.query([mean_point], k=1)
-    dist = DistToPlane(Normalvector, plane_Point, check_point)
+        x = segmentIDs
+        get_indexes = lambda x, xs: [i for (y, i) in zip(xs, range(len(xs))) if x == y]
+        point_set = get_indexes(id, x)
+
+        if len(point_set) <= 2:
+            continue
+        xyz_set =[[xyzArray[i][0], xyzArray[i][1], xyzArray[i][2]] for i in point_set]
+
+        X = [x[0] for x in xyz_set]
+        Y = [x[1] for x in xyz_set]
+        Z = [x[2] for x in xyz_set]
+
+        xmaxx = max(X[0], X[1])
+        xsecondmax = min(X[0], X[1])
+
+        for i in range(2, len(X)):
+            if X[i] > xmaxx:
+                xsecondmax = xmaxx
+                xmaxx = X[i]
+            else:
+                if X[i] > xsecondmax:
+                    xsecondmax = X[i]
+
+        yymax = max(Y[0], Y[1])
+        ysecondmax = min(Y[0], Y[1])
+        for i in range(2, len(Y)):
+            if Y[i] > yymax:
+                ysecondmax = yymax
+                yymax = Y[i]
+            else:
+                if Y[i] > ysecondmax:
+                    ysecondmax = Y[i]
+
+        yymin = min(Y[0], Y[1])
+        yysecondmin = max(Y[0], Y[1])
+        for i in range(2, len(Y)):
+            if Y[i] < yymin:
+                yysecondmin = yymin
+                yymin = Y[i]
+            else:
+                if Y[i] < yysecondmin:
+                    yysecondmin = Y[i]
+
+        xxmin = max(X[0], X[1])
+        xxsecondmin = min(X[0], X[1])
+
+        for i in range(2, len(X)):
+            if X[i] < xxmin:
+                xxsecondmin = xxmin
+                xxmin = X[i]
+            else:
+                if X[i] < xxsecondmin:
+                    xxsecondmin = X[i]
+
+        xmin = np.array(xyz_set[X.index(min(X))])
+        ymin = np.array(xyz_set[Y.index(min(Y))])
+        xmax = np.array(xyz_set[X.index(max(X))])
+        ymax = np.array(xyz_set[Y.index(max(Y))])
+        xsecondmax = np.array(xyz_set[X.index(xsecondmax)])
+        ysecondmax = np.array(xyz_set[Y.index(ysecondmax)])
+        xsecondmin = np.array(xyz_set[X.index(xxsecondmin)])
+        ysecondmin = np.array(xyz_set[Y.index(yysecondmin)])
+
+        elem_list = [xmin, ymin, xmax, ymax, xsecondmax, ysecondmax, xsecondmin, ysecondmin]
+
+        for subset in itertools.combinations(elem_list, 3):
+
+            if (subset[0] != subset[1]).all() and (subset[2] != subset[0]).all() and (subset[1] != subset[2]).all():
+                break
 
 
+        mean_point = [float(sum(X) / len(X)), float(sum(Y) / len(Y))]
+        dists, idxList = kdtree.query([mean_point], 1)
 
+        nextPoint = xyzArray[idxList[0]]
 
-def tmp_def(input, output):
+        dist, sign = calculations.equation_plane_dist(subset[0][0], subset[0][1], subset[0][2], subset[1][0],
+                                                      subset[1][1], subset[1][2], subset[2][0],
+                                                      subset[2][1], subset[2][2],
+                                                      nextPoint[0][0], nextPoint[0][1], nextPoint[0][2])
 
-    input_df = pd.read_csv(input, sep="\t")
-    xyzArray = input_df.filter(items=['X', 'Y', 'Z']).to_numpy()
-    kdtree = KDTree(xyzArray)
+        if plot_plane:
+            plotting.equation_plane_plot(subset[0][0], subset[0][1], subset[0][2], subset[1][0],
+                                                          subset[1][1], subset[1][2], subset[2][0],
+                                                          subset[2][1], subset[2][2],
+                                                          nextPoint[0][0], nextPoint[0][1], nextPoint[0][2], xyzArray)
+        out_list.append([nextPoint[0][0], nextPoint[0][1], nextPoint[0][2], sign, dist, id])
 
-    for i in range(len(xyzArray)):
-        point = xyzArray[i]
-        dist, pointList = kdtree.query([point], k=5)
-        point_set = [xyzArray[j] for j in pointList[0]]
-        CovMat, F_mean = getCovarianceMatrix(point_set)
-        eL, eI, eS, evecL, evecI, evecS = GetEigenInfos(CovMat)
+    out_df = pd.DataFrame.from_records(out_list, columns=['X', 'Y', 'Z', 'sign', 'dist', 'id'])
+    return out_df
 
-        print('eL, eI, eS, evecL, evecI, evecS')
-        print(eL, eI, eS, evecL, evecI, evecS)
