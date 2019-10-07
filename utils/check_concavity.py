@@ -13,15 +13,12 @@ from mpl_toolkits.mplot3d import Axes3D
 import warnings
 
 
-
 ########################################################
-####             Functions                ##############
+# ######          Functions                ########### #
 ########################################################
 
-
-def concave(input, plot_plane= False):
+def concave(input, plot_plane=False):
     """
-
     :param input: input csv with segmented points
     :param plot_plane: boolean. if true every crater will be plotted
     :return: dist and sign for each segment, positive: convex, negative: concave
