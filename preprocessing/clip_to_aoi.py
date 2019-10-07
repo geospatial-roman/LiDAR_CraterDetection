@@ -3,7 +3,7 @@ import laspy
 import os
 import pandas as pd
 
-def clip_LAS(infile, outfile, xmin, ymin, xmax, ymax):
+def clip_LAS(infile, outfile, xmin, ymin, xmax, ymax, safe=False):
     '''
     This function clips a LAS FILE to a Extend and returns a .txt file
     :param infile: Path to LAS file
@@ -16,24 +16,45 @@ def clip_LAS(infile, outfile, xmin, ymin, xmax, ymax):
     '''
 
     inFile = laspy.file.File(infile, mode="r")
-    dataset = np.vstack([inFile.x, inFile.y, inFile.z, inFile.Intensity, inFile.return_num, inFile.classification]).transpose()
-    print('points full file:', len(dataset))
+    dataset = np.vstack([inFile.x,
+                         inFile.y,
+                         inFile.z
+                         ]).transpose()
+    print('dataset created')
+    df = pd.DataFrame.from_records(dataset, columns=['X', 'Y', 'Z'])
+    print('dataset now df')
+    print(len(df.index()))
 
+    is_seg = xmin < df['X'] < xmax
+    df = df[is_seg]
+
+    is_seg = ymin < df['Y'] < ymax
+    df = df[is_seg]
+
+    #df_aoi = df[(xmax > df['X'] > xmin) & (ymax > df['Y'] > ymin)]
+
+    """
     count = 0
     clipList= []
     for line in dataset:
         x = line[0]
         y = line[1]
+        z = line[2]
 
         if xmin < x < xmax and ymin < y < ymax:
-            clipList.append(line)
+            clipList.append([x, y, z])
             count += 1
 
 
+    outFile = laspy.file.File(outfile, mode="w", header=inFile.header)
+    outFile.points = clipList
+    outFile.close()
+    """
 
-    out_df = pd.DataFrame.from_records(clipList)
-    out_df.to_csv(outfile, sep='\t')
-    print("done. point sin clip: ", count)
+    if safe:
+
+        df.to_csv(outfile, sep='\t')
+    return df
 
 
 
