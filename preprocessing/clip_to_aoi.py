@@ -1,7 +1,7 @@
 import numpy as np
 import laspy
-import os
 import pandas as pd
+
 
 def clip_LAS(infile, outfile, xmin, ymin, xmax, ymax, safe=False):
     '''

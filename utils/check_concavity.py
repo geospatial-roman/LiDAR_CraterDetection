@@ -1,17 +1,9 @@
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KDTree
-from math import *
 from collections import Counter
-import matplotlib.pyplot as plt
 from utils import calculations, plotting
 import itertools
-
-
-
-from mpl_toolkits.mplot3d import Axes3D
-import warnings
-
 
 ########################################################
 # ######          Functions                ########### #

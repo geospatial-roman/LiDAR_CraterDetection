@@ -70,7 +70,7 @@ def region_growing(input):
         if (LabelArray[i] != 0):
             SegID += 1
             Shoots = [i]
-            count = 1
+
             while (len(Shoots) != 0):
                 Seeds = Shoots
                 Shoots = []
@@ -92,7 +92,7 @@ def region_growing(input):
                         if LabelArray[idx] != 0:
                             Shoots.append(idx)
                             segmentArray[idx] = SegID
-                count += 1
+
 
     segmented_df = input_df
     segmented_df['SegmentID'] = segmentArray

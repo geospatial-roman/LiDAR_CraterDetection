@@ -1,6 +1,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 
 def equation_plane_plot(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4, xyzArray):
