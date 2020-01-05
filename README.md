@@ -7,7 +7,7 @@ This Repository contains code to extract Bomb Crater structurs from a LIDAR Lase
 INPUT: Las File or TXT File of relevant area
 Output: Pointcloud reduced to crater points and Shape File with bounding boxes
 
-1. In the prepocessing the LAS File is Filtered for Ground Points and Clipped to the AOI
+1. In the prepocessing the LAS File is Filtered for Ground Points and Clipped to the AOI \n
     --> preprocessing.extract_ground
     --> preprocessing.clip_to_aoi
 
