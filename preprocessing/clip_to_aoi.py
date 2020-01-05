@@ -21,17 +21,19 @@ def clip_LAS(infile, outfile, xmin, ymin, xmax, ymax, safe=False):
                          inFile.z
                          ]).transpose()
     print('dataset created')
+    """
+    dataset = dataset[np.where(dataset[0] > xmin & dataset[0] < xmax) & dataset[1] > ymin & dataset[1] < ymax]
+    print('array filtered')
     df = pd.DataFrame.from_records(dataset, columns=['X', 'Y', 'Z'])
     print('dataset now df')
-    print(len(df.index()))
 
-    is_seg = xmin < df['X'] < xmax
-    df = df[is_seg]
 
-    is_seg = ymin < df['Y'] < ymax
-    df = df[is_seg]
 
-    #df_aoi = df[(xmax > df['X'] > xmin) & (ymax > df['Y'] > ymin)]
+    #df = pd.DataFrame(df)
+    #df = df[(df['X'] > xmin) & (df['X'] < xmax) & (df['Y'] > ymin) & (df['Y'] < ymax)]
+
+
+    # df_aoi = df[(xmax > df['X'] > xmin) & (ymax > df['Y'] > ymin)]
 
     """
     count = 0
@@ -49,12 +51,12 @@ def clip_LAS(infile, outfile, xmin, ymin, xmax, ymax, safe=False):
     outFile = laspy.file.File(outfile, mode="w", header=inFile.header)
     outFile.points = clipList
     outFile.close()
-    """
 
-    if safe:
 
-        df.to_csv(outfile, sep='\t')
-    return df
+    # if safe:
+
+    #     df.to_csv(outfile, sep='\t')
+    # return df
 
 
 

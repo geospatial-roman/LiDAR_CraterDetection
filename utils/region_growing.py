@@ -177,4 +177,5 @@ def segment_craters(mids, all_points):
     return df
 
 
-
+if __name__ == '__main__':
+    print("This module should not be used stand alone.")

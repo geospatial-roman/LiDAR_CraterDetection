@@ -1,7 +1,7 @@
-
+import utils
 import pandas as pd
 import numpy as np
-from utils import check_concavity, calculations
+
 
 
 def filter_segments(input):
@@ -30,15 +30,15 @@ def filter_segments(input):
         if min(df['X']) == max(df['X']) or min(df['Y']) == max(df['Y']):
             continue
 
-        concave_df = check_concavity.concave(df)
+        concave_df = utils.concave(df)
         if min(concave_df['sign']) != 1:
             continue
 
         df = df.assign(dist=min(concave_df.dist))
         xyzArray = df.filter(items=['X', 'Y', 'Z']).to_numpy()
 
-        covmat, f_mean = calculations.getCovarianceMatrix(xyzArray)
-        eL, eI, eS, evecL, evecI, evecS = calculations.getEigenInfos(covmat)
+        covmat, f_mean = utils.getCovarianceMatrix(xyzArray)
+        eL, eI, eS, evecL, evecI, evecS = utils.getEigenInfos(covmat)
 
         linearity = (eL - eI) / eL
         vert = 1 - abs(np.dot([0, 0, 1], evecS))
@@ -49,3 +49,7 @@ def filter_segments(input):
     final_df = pd.concat(appended_data)
 
     return final_df
+
+
+if __name__ == '__main__':
+    print("This Module should not be used stand alone. it is based on DataFrames")

@@ -7,7 +7,7 @@ from utils import calculations
 
 def cut_planes(input_df):
     """
-    :param input_csv: input csv with segmented points for filtern based on size, concavity and linearity
+    :param input_df
     :return: filtered point cloud df
     """
 
@@ -43,4 +43,8 @@ def cut_planes(input_df):
     final_df = pd.concat(appended_data)
 
     return final_df
+
+if __name__ == '__main__':
+    print("This Module should not be used stand alone. it is based on DataFrames")
+
 

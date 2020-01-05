@@ -3,11 +3,11 @@ import numpy as np
 from math import *
 
 
-########################################################
-####             Functions                ##############
-########################################################
-
 def getCovarianceMatrix(PointArray):
+    """
+    :param PointArray: input Point Cloud
+    :return: Covariance Matrix , F_Mean
+    """
     F_mean = np.mean(PointArray, axis=0)
     CovMat = np.matrix([[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]])
     for P in PointArray:
@@ -26,6 +26,10 @@ def getCovarianceMatrix(PointArray):
 
 
 def getEigenInfos(CovMat):
+    """
+    :param CovMat: Input Covariance Matrix
+    :return: Eigenwert_L, Eigenwert_I, Eigenwert_S, Eigenvektor_L, Eigenvektor_I, Eigenvektor_S
+    """
     # get eigenvalues and eigenvectors
     eigenvalues_unsorted, eigenvectors_unsorted = np.linalg.eig(CovMat)
 
@@ -45,32 +49,24 @@ def getEigenInfos(CovMat):
     return eL / eL, eI / eL, eS / eL, evecL[0], evecI[0], evecS[0]
 
 
-def DistToPlane(Normal,PlanePt,SearchPt):
-    Normal /= np.linalg.norm(Normal)
-    dist = fabs(np.dot(Normal, PlanePt-SearchPt))
-    return dist
-
-
-def shortest_distance(x1, y1, z1, a, b, c, d):
-    d = abs((a * x1 + b * y1 + c * z1 + d))
-    e = (sqrt(a * a + b * b + c * c))
-    # print("Perpendicular distance is", d / e)
-    return d/e
-
-
-def is_inside(circle_x, circle_y, rad, x, y):
-
-    # Compare radius of circle
-    # with distance of its center
-    # from given point
-    if ((x - circle_x) * (x - circle_x) +
-            (y - circle_y) * (y - circle_y) <= rad * rad):
-        return True
-    else:
-        return False
-
 
 def equation_plane_dist(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4):
+    """
+
+    :param x1: X Coordinate Plane point 1
+    :param y1: Y Coordinate Plane point 1
+    :param z1: Z Coordinate Plane point 1
+    :param x2: X Coordinate Plane point 2
+    :param y2: Y Coordinate Plane point 2
+    :param z2: Z Coordinate Plane point 2
+    :param x3: X Coordinate Plane point 3
+    :param y3: Y Coordinate Plane point 3
+    :param z3: Z Coordinate Plane point 3
+    :param x4: X Coordinate point of Interest
+    :param y4: Y Coordinate point of Interest
+    :param z4: Z Coordinate point of Interest
+    :return: Distance to plane , Sign
+    """
 
     a1 = x2 - x1
     b1 = y2 - y1

@@ -18,3 +18,8 @@ def read_shapefile(shp_path):
     df = df.assign(coords=shps)
 
     return df
+
+if __name__ == '__main__':
+    print("This function returns a dataframe and should therefore not be used stand alone.")
+    path = input("Path to Shape: ")
+    read_shapefile(path)

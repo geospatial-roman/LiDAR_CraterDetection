@@ -1,32 +1,27 @@
+from utils import *
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KDTree
 from collections import Counter
-from utils import calculations, plotting
 import itertools
 
-########################################################
-# ######          Functions                ########### #
-########################################################
-
-def concave(input, plot_plane=False):
+def concave(input_file, plot_plane=False):
     """
-    :param input: input csv with segmented points
+    :param input_file: input csv with segmented points
     :param plot_plane: boolean. if true every crater will be plotted
     :return: dist and sign for each segment, positive: convex, negative: concave
     """
 
     if isinstance(input, str):
-        input_df = pd.read_csv(input, sep=";")
+        input_df = pd.read_csv(input_file, sep=";")
     else:
-        input_df = input
+        input_df = input_file
 
     input_df.dropna()
 
     xyzArray = input_df.filter(items=['X', 'Y', 'Z']).to_numpy()
     xyArray = input_df.filter(items=['X', 'Y']).to_numpy()
     segmentIDs = input_df['SegmentID']
-    normalArray = input_df.filter(items=['Nx', 'Ny', 'Nz']).to_numpy()
     kdtree = KDTree(xyArray)
 
     out_list = []
@@ -112,7 +107,7 @@ def concave(input, plot_plane=False):
 
         nextPoint = xyzArray[idxList[0]]
 
-        dist, sign = calculations.equation_plane_dist(subset[0][0], subset[0][1], subset[0][2], subset[1][0],
+        dist, sign = equation_plane_dist(subset[0][0], subset[0][1], subset[0][2], subset[1][0],
                                                       subset[1][1], subset[1][2], subset[2][0],
                                                       subset[2][1], subset[2][2],
                                                       nextPoint[0][0], nextPoint[0][1], nextPoint[0][2])
@@ -127,3 +122,15 @@ def concave(input, plot_plane=False):
     out_df = pd.DataFrame.from_records(out_list, columns=['X', 'Y', 'Z', 'sign', 'dist', 'id'])
     return out_df
 
+
+if __name__ == '__main__':
+
+    input_file = input("Path to input File (csv): ")
+    plot = input("Plot segments= [y/n]: ")
+
+    if plot == "y":
+        plot_plane = True
+    else:
+        plot_plane = False
+
+    concave(input_file, plot_plane)

@@ -1,12 +1,9 @@
 from osgeo import ogr
-import pandas as pd
-import numpy as np
 import os
-from shapely.geometry import Point, MultiPolygon
 
 def draw_bb(input_df, out_shape):
     """
-    :param input_csv: input csv with segmented points for filtern based on size, concavity and linearity
+    :param input_csv: input csv with segmented points for filter based on size, concavity and linearity
     :param out_shape: output .shp file
     :return: filtered point cloud df
     """
