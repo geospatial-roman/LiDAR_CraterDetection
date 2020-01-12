@@ -17,6 +17,7 @@ def filter(input):
     my_data = my_data.rename(columns={'//X': 'X'})
     my_data = my_data.dropna(how='any', axis=0)
 
+
     costum = my_data[(my_data['Roughness (9)'] > value_roughness_9)
                      & (my_data['Illuminance (PCV)'] < value_illuminance)
                      & (my_data['Mean curvature (3)'] > value_mean_curvature_3)

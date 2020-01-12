@@ -62,7 +62,6 @@ def region_growing(input):
 
     searchRad = 0.6
     SegID = 0
-    print('Points: ', len(xyzArray))
     for i in range(len(xyzArray)):
 
         if segmentArray[i] != -1:
@@ -97,7 +96,7 @@ def region_growing(input):
     segmented_df = input_df
     segmented_df['SegmentID'] = segmentArray
     segmented_df.loc[segmented_df['SegmentID'] < 0, 'SegmentID'] = 0
-
+    print("Segments: ", len(set(segmented_df['SegmentID'])))
     return segmented_df
 
 
@@ -173,6 +172,7 @@ def segment_craters(mids, all_points):
     segmented_df = segmented_df[is_seg]
 
     df = filter_planarity.cut_planes(segmented_df)
+    print("Segments: ", len(set(df['SegmentID'])))
 
     return df
 

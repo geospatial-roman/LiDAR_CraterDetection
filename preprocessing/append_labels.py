@@ -72,7 +72,7 @@ def label_Craters(input, shapes, output):
     print('output columns: ', pc.columns.values)
     pc.to_csv(output, sep=';', index=False)
     print('done')
-
+"""
 
 if __name__ == '__main__':
 
@@ -80,3 +80,4 @@ if __name__ == '__main__':
     shapes = input("Crater Polygons: ")
     output = input("Output_file: ")
     label_Craters(input_file, shapes, output)
+"""

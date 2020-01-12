@@ -125,6 +125,8 @@ def concave(input_file, plot_plane=False):
 
 if __name__ == '__main__':
 
+    print("doing concavity")
+
     input_file = input("Path to input File (csv): ")
     plot = input("Plot segments= [y/n]: ")
 
