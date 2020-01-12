@@ -48,6 +48,9 @@ Input: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to ex
 7. Extraction of final Pointcloud and bounding boxes .shp
     
 8. Return Bounding boxes, classified Pointcloud
+
+    ![Alt text](/images/bounding_boxes.PNG?raw=true "Optional Title")
+    ![Alt text](/images/filter_example_2.PNG?raw=true "Optional Title")
  
 <p> Disclaimer:
 The point cloud data, the DTM, and all images and maps are based on data provided by The Amt der Tiroler Landesregierung Abteilung Geoinformation, which is the right full owner of this data.
