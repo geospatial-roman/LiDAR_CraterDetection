@@ -5,7 +5,7 @@
 
 <p>By cloning the repository and running the main file from the corresponding directory. The points in a 3D point cloud, which belong to bomb craters will be classfied and segmented.</p>
 
-<h4>The following parameter can/must be given to rin the script</h4>
+<h4>The following parameter can/must be given to run the script</h4>
 
 
 * -infile     [PATH TO INPUT FILE] (required)
@@ -14,7 +14,7 @@
 * -method     ["Filter", "DecisionTree", "RandomForest"] default="Filter" (optional)
 * -clip       [BOOLEAN] default=False (optional)
 * -extent     [xmin, ymin, xmax, ymax] (optional)
-* -keep_tmp   [BOOLEAN] default=False (optional
+* -keep_tmp   [BOOLEAN] default=False (optional)
 
 
 
@@ -27,6 +27,8 @@ Output: Pointcloud with classified crater points and Shape File with bounding bo
 
 2. Features like Roughness, Curvature, Iluminance are calculated
     --> preprocessing.calculate_params
+    
+![Alt text](/roughness_3_seite.PNG?raw=true "Optional Title")
 
 3. Pointcloud is filtered for Craters
     --> filtering.filter_params
