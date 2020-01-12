@@ -1,6 +1,6 @@
 # PC_Craters
 
-<h2> A tool for atutomated bomb crater detection in 3D Point Clouds</h2>
+<h2> A tool for automated bomb crater detection in 3D Point Clouds</h2>
 
 <p>This Repository contains code to extract Bomb Crater structurs from a LIDAR Laser Scan using Machine Learning and Parameter based Filtering.</p>
 
