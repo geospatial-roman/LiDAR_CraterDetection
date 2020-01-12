@@ -1,7 +1,7 @@
 # PC_Craters
 
 
-This Repository contains code to extract Bomb Crater structurs from a LIDAR Laser Scan using Machine Learning and Parameter based Filtering.
+<h2>This Repository contains code to extract Bomb Crater structurs from a LIDAR Laser Scan using Machine Learning and Parameter based Filtering.</h2>
 
 By cloning the repository and running the main file from the corresponding directory. The point in a 3D point cloud, which belong to bomb craters will be classfied and segmented.
 
