@@ -41,8 +41,7 @@ Input: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to ex
 
 5. Region growing to extract full crater
 
-6. Filtering for unsuitable segments
-    This filter allows to filter for concave, round, crater-shaped segments. As seen below, by calculating a surface plane, the craters can be distinguished from convex hills and forms.
+6. Filtering for unsuitable segments. This filter allows to filter for concave, round, crater-shaped segments. As seen below, by calculating a surface plane, the craters can be distinguished from convex hills and forms.
     
     ![Alt text](/plane_in_points.PNG?raw=true "Optional Title")
 
