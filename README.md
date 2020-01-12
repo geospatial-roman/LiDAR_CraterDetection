@@ -55,5 +55,5 @@ Output: Pointcloud with classified crater points and Shape File with bounding bo
 8. Return Bounding boxes, classified Pointcloud
  
 <p> Disclaimer:
-The point cloud data, the DTM, and all images and maps are based on data provided by The Amt der Tiroler Landesregierung Abteilung Geoinformation.
+The point cloud data, the DTM, and all images and maps are based on data provided by The Amt der Tiroler Landesregierung Abteilung Geoinformation, which is the right full owner of this data.
 </p>
