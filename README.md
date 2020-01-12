@@ -49,7 +49,7 @@ Input: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to ex
     
 8. Return Bounding boxes, classified Pointcloud
 
-    ![Alt text](/images/bounding_boxes.PNG?raw=true "Optional Title")
+    ![Alt text](/images/bounding_boxes.jpg?raw=true "Optional Title")
     ![Alt text](/images/filter_example_2.PNG?raw=true "Optional Title")
  
 <p> Disclaimer:
