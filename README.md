@@ -1,14 +1,27 @@
 # PC_Craters
-Initial Upload
 
 
-This Repository contains code to extract Bomb Crater structurs from a LIDAR Laser Scan.
+This Repository contains code to extract Bomb Crater structurs from a LIDAR Laser Scan using Machine Learning and Parameter based Filtering.
 
-INPUT: Las File or TXT File of relevant area
-Output: Pointcloud reduced to crater points and Shape File with bounding boxes
+By cloning the repository and running the main file from the corresponding directory. The point in a 3D point cloud, which belong to bomb craters will be classfied and segmented.
+
+The following parameter can/must be given to rin the script
+
+-infile     [PATH TO INPUT FILE] (required)
+-outfile    [PATH TO OUTPUT FILE] (required)
+-out_shp    [PATH TO OUTPUT SHP FILE] (required)
+-method     ["Filter", "DecisionTree", "RandomForest"] default="Filter" (optional)
+-clip,      [BOOLEAN] default=False (optional)
+-extent     [xmin, ymin, xmax, ymax] (optional)
+-keep_tmp   [BOOLEAN] default=False (optional
+
+
+
+INPUT: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to extract ground points from classified LAS File)
+Output: Pointcloud with classified crater points and Shape File with bounding boxes
 
 1. In the prepocessing the LAS File is Filtered for Ground Points and Clipped to the AOI
-    --> preprocessing.extract_ground
+    (--> preprocessing.extract_ground)
     --> preprocessing.clip_to_aoi
 
 2. Features like Roughness, Curvature, Iluminance are calculated
@@ -29,5 +42,7 @@ Output: Pointcloud reduced to crater points and Shape File with bounding boxes
 
 7. Extraction of final Pointcloud and bounding boxes .shp
     --> utils.bounding_box
+    
+8. Return Bounding boxes, classified Pointcloud
     
   
