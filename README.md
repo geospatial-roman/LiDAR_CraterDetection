@@ -25,8 +25,8 @@ Example Usage:
 
 <h3> What does this tool do? </h3>
 <p>
-INPUT: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to extract ground points from classified LAS File)
-Output: Pointcloud with classified crater points and Shape File with bounding boxes
+Input: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to extract ground points from classified LAS File)</p>
+<p>Output: Pointcloud with classified crater points and Shape File with bounding boxes
 </p>
 
 1. In the prepocessing the LAS File is Filtered for Ground Points and Clipped to the AOI
