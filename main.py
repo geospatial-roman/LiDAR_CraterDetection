@@ -1,74 +1,123 @@
-
-import pandas as pd
 from preprocessing import *
-from utils import *
 from filtering import *
+from utils import *
+import datetime
+import pickle
 
-infile = 'C:/Users/roman/Documents/Masterarbeit/relevant_LAS_files/Ground_PC_Mittelgeb_234000_81000.las'
-outfile = 'tmp/ground_temp.las'
-tmp_txt = 'txt_files/Master_Raw_Data/High_Density/Data_Natters_HighDensity.txt'
-cc_file = 'txt_files/screenshot_run/Data_Lans_HighDensity_NCR.txt'
-final_out = 'txt_files/screenshot_run/Lans_screenshots.txt'
-crater_shp = 'txt_files/screenshot_run/Data_Lans_HighDensity_BoundingBox_120.shp'
+import argparse
 
-ymax = 233200
-ymin = 231500
-xmax = 39500
-xmin = 38200
+parser = argparse.ArgumentParser(description="Detect Craters in PointCloud")
 
-zmin = 0
-zmax = 1500
-
-39485
-# Lans
-# ymax = 235600
-# ymin = 235200
-# xmax = 82450
-# xmin = 81600
-# zmin = 0
-# zmax = 1000
-
-#Natters
-# ymax = 233200
-# ymin = 231500
-# xmax = 39500
-# xmin = 38200
-# zmin = 0
-# zmax = 1500
+parser.add_argument('-infile', required=True,  help='Path to Input File (TXT/LAS)')
+parser.add_argument('-outfile', required=True, help='Path to Output Pointcloud (txt)')
+parser.add_argument('-out_shp', required=True, help='Path to Output Bounding Boxes (shp)')
+parser.add_argument('-method', default="Filter", help='Used Method ["Filter", "DecisionTree", "RandomForest"]')
+parser.add_argument('-clip', default=False, help='Clip to extent? (Boolean)')
+parser.add_argument('-extent', required=False, help='Extent ("xmin, ymin, xmax, ymax"')
+parser.add_argument('-keep_tmp', default=False, help='Save temporary files in folder "tmp" of this directory? (Boolean)')
 
 
-#extract_ground.
-ground_from_LAS(infile, outfile)
-print('ground extracted')
-df = clip_LAS(infile, tmp_txt, xmin, ymin, xmax, ymax)
-print('file clipped')
+args = parser.parse_args()
 
-df.to_csv(tmp_txt, sep=';')
-las_to_df(outfile, tmp_txt, safe=False)
-# xmin, ymin, zmin, xmax, ymax, zmax
-cc_cmd_filter(tmp_txt, cc_file)
-print('feature calculated')
+if args.method not in ["Filter", "DecisionTree", "RandomForest"]:
+    print('Please provide a -method argument. Possible methods: ["Filter", "DecisionTree", "RandomForest"]')
+
+else:
+
+    if args.infile:
+        print(str(datetime.datetime.now())[:19], "Starting with File: ", args.infile)
+    else:
+        print("Error with -infile argument")
+
+    infile = args.infile
+    tmp_txt = 'tmp/ground_temp.las'
+    cc_file = 'tmp/Data_Lans_HighDensity_Params.txt'
+    method = args.method
+    final_out = args.outfile
+    crater_shp = args.out_shp
+    clip = args.clip
+
+    if clip:
+        xmin = args.extent.split()[0]
+        ymin = args.extent.split()[1]
+        xmax = args.extent.split()[2]
+        ymax = args.extent.split()[3]
 
 
-filter_df = filter(cc_file)
-print('costum filtered')
-filter_df.to_csv('txt_files/screenshot_run/Lans_screenshots_cc_filter_2111.txt', sep=";", index=False)
+def main(infile, cc_file, final_out, method, clip, crater_shp, xmin=0, ymin=0, xmax=0, ymax=0):
+
+    if method == "Filter":
+
+        if clip:
+            cc_cmd_filter(infile, cc_file, xmin, ymin, 0, xmax, ymax, 3000, clip)
+        else:
+            cc_cmd_filter(infile, cc_file, clip)
+        print(str(datetime.datetime.now())[:19], 'Step 1 of 6 - PointCloud clipped to AOI and Attributes calculated')
+        filter_df = filter(cc_file)
+
+    elif method == "DecisionTree":
+
+        if clip:
+            cc_cmd_ml(infile, cc_file, xmin, ymin, 0, xmax, ymax, 3000, clip)
+        else:
+            cc_cmd_ml(infile, cc_file, clip)
+            df = pd.read_csv(cc_file, sep=";")
+            df = df.rename(columns={'//X': 'X'})
+            df = df.dropna(how='any', axis=0)
+            df_pred = df.drop(['X', 'Y', 'Z', 'Nx', 'Ny', 'Nz'], axis=1)
+            print(str(datetime.datetime.now())[:19], 'Step 1 of 6 - PointCloud clipped to AOI and Attributes calculated')
+
+            loaded_model = pickle.load(open('Models/DecisionTreeClassifier.sav', 'rb'))
+            prediction = loaded_model.predict(df_pred)
+
+            df['Prediction'] = prediction
+            print('Points labeld as craters: ', sum(prediction))
+            filter_df = df[df.Prediction == 1]
+            remaining_df = df[df.Prediction != 1]
+
+    elif method == "RandomForest":
+
+        if clip:
+            cc_cmd_ml(infile, cc_file, xmin, ymin, 0, xmax, ymax, 3000, clip)
+        else:
+            cc_cmd_ml(infile, cc_file, clip)
+            df = pd.read_csv(cc_file, sep=";")
+            df = df.rename(columns={'//X': 'X'})
+            df = df.dropna(how='any', axis=0)
+            df_pred = df.drop(['X', 'Y', 'Z', 'Nx', 'Ny', 'Nz'], axis=1)
+            print(str(datetime.datetime.now())[:19], 'Step 1 of 6 - PointCloud clipped to AOI and Attributes calculated')
+
+            loaded_model = pickle.load(open('Models/RandomForestClassifier.sav', 'rb'))
+            prediction = loaded_model.predict(df_pred)
+
+            df['Prediction'] = prediction
+            print('Points labeld as craters: ', sum(prediction))
+            filter_df = df[df.Prediction == 1]
+            remaining_df = df[df.Prediction != 1]
+
+    print(str(datetime.datetime.now())[:19], 'Step 2 of 6 - PointCloud classified by ', str(args.method))
+
+    segmented = region_growing(filter_df)
+    print(str(datetime.datetime.now())[:19], 'Step 3 of 6 - PointCloud segmented by Connected Components')
+    segmented.to_csv("tmp/segmented.txt", sep=";", index=False)
+    filtered = filter_segments(segmented)
+    print(str(datetime.datetime.now())[:19], 'Step 4 of 6 - Segments filtered for Craters')
+    filtered.to_csv("tmp/filtered.txt", sep=";", index=False)
+
+    seed_df = find_seeds(filtered, cc_file)
+    craters = segment_craters(seed_df, cc_file)
+
+    print(str(datetime.datetime.now())[:19], 'Step 5 of 6 - Craters Classified and Segmented')
+    classified_pc = pd.concat([craters, remaining_df], ignore_index=True)
+    classified_pc.to_csv(final_out, sep=';', index=False)
+
+    bounding_box.draw_bb(craters, crater_shp)
+    print(str(datetime.datetime.now())[:19], "Step 6 of 6 - Bounding Box shp created")
+
+    if not args.keep_tmp:
+        delete_contents('tmp')
 
 
-segmented = region_growing(filter_df)
-segmented.to_csv('txt_files/screenshot_run/Lans_screenshots_cc_segmented.txt', sep=';', index=False)
-print('segmented')
-segmented = pd.read_csv('txt_files/costum_filtering/Data_Lans_HighDensity_segmented_120.csv', sep=';')
+if __name__ == "__main__":
 
-filtered = filter_segments(segmented)
-filtered.to_csv('txt_files/screenshot_run/Lans_screenshots_cc_filtered.txt', sep=';', index=False)
-print('segments filtered')
-
-seed_df = find_seeds(filtered, cc_file)
-print('seeds done')
-
-craters = segment_craters(seed_df, cc_file)
-craters.to_csv('txt_files/screenshot_run/Lans_screenshots_final.txt', sep=';', index=False)
-
-bounding_box.draw_bb(craters, crater_shp)
-
+    main(infile, cc_file, final_out, method, clip, crater_shp, xmin=0, ymin=0, xmax=0, ymax=0)
