@@ -8,13 +8,13 @@
 <h4>The following parameter can/must be given to rin the script</h4>
 
 
-⋅⋅* -infile     [PATH TO INPUT FILE] (required)
-⋅⋅* -outfile    [PATH TO OUTPUT FILE] (required)
-⋅⋅* -out_shp    [PATH TO OUTPUT SHP FILE] (required)
-⋅⋅* -method     ["Filter", "DecisionTree", "RandomForest"] default="Filter" (optional)
-⋅⋅* -clip       [BOOLEAN] default=False (optional)
-⋅⋅* -extent     [xmin, ymin, xmax, ymax] (optional)
-⋅⋅* -keep_tmp   [BOOLEAN] default=False (optional
+* -infile     [PATH TO INPUT FILE] (required)
+* -outfile    [PATH TO OUTPUT FILE] (required)
+* -out_shp    [PATH TO OUTPUT SHP FILE] (required)
+* -method     ["Filter", "DecisionTree", "RandomForest"] default="Filter" (optional)
+* -clip       [BOOLEAN] default=False (optional)
+* -extent     [xmin, ymin, xmax, ymax] (optional)
+* -keep_tmp   [BOOLEAN] default=False (optional
 
 
 
