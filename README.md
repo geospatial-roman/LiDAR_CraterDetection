@@ -42,6 +42,9 @@ Output: Pointcloud with classified crater points and Shape File with bounding bo
 6. Filtering for unsuitable segments
     --> filtering.filter_segments
     --> filtering.filter_planarity
+    This filter allows to filter for concave, round, crater-shaped segments. As seen below, by calculating a surface plane, the craters can be distinguished from convex hills and forms.
+    
+    ![Alt text](/plane_in_points.PNG?raw=true "Optional Title")
 
 7. Extraction of final Pointcloud and bounding boxes .shp
     --> utils.bounding_box
