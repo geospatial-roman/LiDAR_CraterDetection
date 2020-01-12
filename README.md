@@ -33,7 +33,7 @@ Input: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to ex
 
 2. Features like Roughness, Curvature, Iluminance are calculated
     
-![Alt text](/roughness_3_seite.PNG?raw=true "Optional Title")
+![Alt text](/images/roughness_3_seite.PNG?raw=true "Optional Title")
 
 3. Pointcloud is filtered for Craters
 
@@ -43,7 +43,7 @@ Input: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to ex
 
 6. Filtering for unsuitable segments. This filter allows to filter for concave, round, crater-shaped segments. As seen below, by calculating a surface plane, the craters can be distinguished from convex hills and forms.
     
-    ![Alt text](/plane_in_points.PNG?raw=true "Optional Title")
+    ![Alt text](/images/plane_in_points.PNG?raw=true "Optional Title")
 
 7. Extraction of final Pointcloud and bounding boxes .shp
     
