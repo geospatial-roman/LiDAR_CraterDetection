@@ -18,21 +18,6 @@ parser.add_argument('-keep_tmp', default=False, help='Save temporary files in fo
 
 args = parser.parse_args()
 
-if args.method not in ["Filter", "DecisionTree", "RandomForest"]:
-    print('Please provide a -method argument. Possible methods: ["Filter", "DecisionTree", "RandomForest"]')
-
-else:
-    print(str(datetime.datetime.now())[:19], "Starting with File: ", args.infile)
-
-    tmp_txt = 'tmp/ground_temp.las'
-    cc_file = 'tmp/Data_Lans_HighDensity_Params.txt'
-
-    if args.clip:
-        xmin = args.extent.split()[0]
-        ymin = args.extent.split()[1]
-        xmax = args.extent.split()[2]
-        ymax = args.extent.split()[3]
-
 
 def main(infile, cc_file, final_out, method, clip, crater_shp, xmin=0, ymin=0, xmax=0, ymax=0):
 
@@ -110,4 +95,19 @@ def main(infile, cc_file, final_out, method, clip, crater_shp, xmin=0, ymin=0, x
 
 if __name__ == "__main__":
 
-    main(args.infile, cc_file, args.outfile, args.method, args.clip, args.out_shp, xmin=0, ymin=0, xmax=0, ymax=0)
+    if args.method not in ["Filter", "DecisionTree", "RandomForest"]:
+        print('Please provide a -method argument. Possible methods: ["Filter", "DecisionTree", "RandomForest"]')
+
+    else:
+        print(str(datetime.datetime.now())[:19], "Starting with File: ", args.infile)
+
+        tmp_txt = 'tmp/ground_temp.las'
+        cc_file = 'tmp/Data_Lans_HighDensity_Params.txt'
+
+        if args.clip:
+            xmin = args.extent.split()[0]
+            ymin = args.extent.split()[1]
+            xmax = args.extent.split()[2]
+            ymax = args.extent.split()[3]
+
+        main(args.infile, cc_file, args.outfile, args.method, args.clip, args.out_shp, xmin=0, ymin=0, xmax=0, ymax=0)
