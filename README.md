@@ -1,7 +1,8 @@
 # PC_Craters
 
+<h2> A tool for atomated bomb crater detection </h2>
 
-<h2>This Repository contains code to extract Bomb Crater structurs from a LIDAR Laser Scan using Machine Learning and Parameter based Filtering.</h2>
+<p>This Repository contains code to extract Bomb Crater structurs from a LIDAR Laser Scan using Machine Learning and Parameter based Filtering.</p>
 
 <p>By cloning the repository and running the main file from the corresponding directory. The points in a 3D point cloud, which belong to bomb craters will be classfied and segmented.</p>
 
@@ -17,9 +18,11 @@
 * -keep_tmp   [BOOLEAN] default=False (optional)
 
 
-
+<h3> What does this tool do? </h3>
+<p>
 INPUT: File with Point Cloud of Ground point (e.g. use "extract_ground.py" to extract ground points from classified LAS File)
 Output: Pointcloud with classified crater points and Shape File with bounding boxes
+</p>
 
 1. In the prepocessing the LAS File is Filtered for Ground Points and Clipped to the AOI
     (--> preprocessing.extract_ground)
