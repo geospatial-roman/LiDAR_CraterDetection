@@ -17,6 +17,11 @@
 * -extent     [xmin, ymin, xmax, ymax] (optional)
 * -keep_tmp   [BOOLEAN] default=False (optional)
 
+Example Usage:
+
+>>> cd PC_Craters
+/PC_Craters>>> python main.py -infile "ground.las" -outfile "craters.txt" -out_shp "craters_bb.shp" -method Filter -keep_tmp True
+
 
 <h3> What does this tool do? </h3>
 <p>
