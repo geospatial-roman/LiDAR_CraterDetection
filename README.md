@@ -19,7 +19,7 @@
 
 Example Usage:
 
->>> cd PC_Craters
+
 >>> python main.py -infile "ground.las" -outfile "craters.txt" -out_shp "craters_bb.shp" -method Filter -keep_tmp True
 
 
