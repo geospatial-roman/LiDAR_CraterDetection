@@ -10,22 +10,23 @@
 
 
  **-infile     [PATH TO INPUT FILE]** (required)<br>
-               *Path to the input Pointcloud in any pointcloud format (.las, .txt, ...)*
+               *Path to the input Pointcloud in any pointcloud format (.las, .txt, ...)*<br>
  **-outfile    [PATH TO OUTPUT FILE]** (required)<br>
-                *Path to classified output Pointcloud (will be .txt)*
+                *Path to classified output Pointcloud (will be .txt)*<br>
  **-out_shp    [PATH TO OUTPUT SHP FILE]** (required)<br>
-                *Path to output .shp file for crater bounding boxes*
+                *Path to output .shp file for crater bounding boxes*<br>
  **-method     ["Filter", "DecisionTree", "RandomForest"]** default="Filter" (optional)<br>
-                *Method to apply: Filter, Decision Tree Classifier or Random Forest Classifier*
+                *Method to apply: Filter, Decision Tree Classifier or Random Forest Classifier*<br>
  **-clip      [BOOLEAN]** default=False (optional)<br>
-                 *Should the input Pointcloud be clipped?*
+                 *Should the input Pointcloud be clipped?*<br>
  **-extent     [xmin, ymin, xmax, ymax]** (optional)<br>
-                  *IF Pointcloud should be clipped. This is the extent*
+                  *IF Pointcloud should be clipped. This is the extent*<br>
  **-keep_tmp   [BOOLEAN]** default=False (optional)<br>
-                  *should temporary files be stored or deleted after finishing? Will be in tmp directory*
+                  *should temporary files be stored or deleted after finishing? Will be in tmp directory*<br>
+                  *this contains: PointCloud with all calculated Parameters, segments after Classification, Filtered Segments*<br>
  **-speed      ["Slow", "Fast"]** default=Slow (optional)<br>
                   *Slow: will classify the craters and fill the segments to the whole form.*<br>
-                  *Fast: will identify craters and not fill the segments to the whole form*
+                  *Fast: will identify craters and not fill the segments to the whole form*<br>
 
 Example Usage:
 
