@@ -9,7 +9,7 @@
 <h4>The following parameter can/must be given to run the script</h4>
 
 
-* -infile     [PATH TO INPUT FILE] (required)
+* -infile     [PATH TO INPUT FILE] (required)<br>
                *Path to the input Pointcloud in any pointcloud format (.las, .txt, ...)*
 * -outfile    [PATH TO OUTPUT FILE] (required)
 * -out_shp    [PATH TO OUTPUT SHP FILE] (required)
