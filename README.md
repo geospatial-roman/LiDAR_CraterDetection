@@ -10,30 +10,30 @@
 
 
  **-infile     [PATH TO INPUT FILE]** (required)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to the input Pointcloud in any pointcloud format (.las, .txt, ...)*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to the input Pointcloud in any pointcloud format (.las, .txt, ...)*<br>
 
  **-outfile    [PATH TO OUTPUT FILE]** (required)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to classified output Pointcloud (will be .txt)*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to classified output Pointcloud (will be .txt)*<br>
 
  **-out_shp    [PATH TO OUTPUT SHP FILE]** (required)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to output .shp file for crater bounding boxes*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to output .shp file for crater bounding boxes*<br>
 
  **-method     ["Filter", "DecisionTree", "RandomForest"]** default="Filter" (optional)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Method to apply: Filter, Decision Tree Classifier or Random Forest Classifier*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Method to apply: Filter, Decision Tree Classifier or Random Forest Classifier*<br>
 
  **-clip      [BOOLEAN]** default=False (optional)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Should the input Pointcloud be clipped?*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Should the input Pointcloud be clipped?*<br>
 
  **-extent     [xmin, ymin, xmax, ymax]** (optional)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*IF Pointcloud should be clipped. This is the extent*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*IF Pointcloud should be clipped. This is the extent*<br>
 
  **-keep_tmp   [BOOLEAN]** default=False (optional)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*should temporary files be stored or deleted after finishing? Will be in tmp directory*<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*this contains: PointCloud with all calculated Parameters, segments after Classification, Filtered Segments*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*should temporary files be stored or deleted after finishing? Will be in tmp directory*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*this contains: PointCloud with all calculated Parameters, segments after Classification, Filtered Segments*<br>
 
  **-speed      ["Slow", "Fast"]** default=Slow (optional)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Slow: will classify the craters and fill the segments to the whole form.*<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Fast: will identify craters and not fill the segments to the whole form*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Slow: will classify the craters and fill the segments to the whole form.*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Fast: will identify craters and not fill the segments to the whole form*<br>
 
 Example Usage:
 
