@@ -1,4 +1,4 @@
-# PC_Craters
+# CraterDetection
 
 <h2> A tool for automated bomb crater detection in 3D Point Clouds</h2>
 
