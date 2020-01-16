@@ -1,6 +1,7 @@
 import utils
 import pandas as pd
 import numpy as np
+import datetime
 
 
 
@@ -23,8 +24,9 @@ def filter_segments(input):
     df3 = input_df.merge(df2, on='SegmentID')
     filtered = df3[df3.counts > 120]
     filtered2 = filtered[filtered.counts < 1000]
-    print("segments: ", len(set(filtered2['SegmentID'])))
+    print(str(datetime.datetime.now())[:19], "Segments: ", len(set(filtered2['SegmentID'])))
     appended_data = []
+    remaining_data = []
     for seg_id in set(filtered2['SegmentID']):
         df = filtered2[filtered2.SegmentID == seg_id]
         if min(df['X']) == max(df['X']) or min(df['Y']) == max(df['Y']):
@@ -32,6 +34,7 @@ def filter_segments(input):
 
         concave_df = utils.concave(df)
         if min(concave_df['sign']) != 1:
+            remaining_data.append(concave_df)
             continue
 
         df = df.assign(dist=min(concave_df.dist))
@@ -47,9 +50,10 @@ def filter_segments(input):
             appended_data.append(df)
 
     final_df = pd.concat(appended_data)
-    print("Craters: ", len(set(final_df['SegmentID'])))
+    remaining_df = pd.concat(remaining_data)
+    print(str(datetime.datetime.now())[:19], "Craters: ", len(set(final_df['SegmentID'])))
 
-    return final_df
+    return final_df, remaining_df
 
 
 def filter_segments_ml(input):
