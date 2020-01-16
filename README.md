@@ -9,21 +9,21 @@
 <h4>The following parameter can/must be given to run the script</h4>
 
 
-* **-infile     [PATH TO INPUT FILE]** (required)<br>
+ **-infile     [PATH TO INPUT FILE]** (required)<br>
                *Path to the input Pointcloud in any pointcloud format (.las, .txt, ...)*
-* **-outfile    [PATH TO OUTPUT FILE]** (required)<br>
+ **-outfile    [PATH TO OUTPUT FILE]** (required)<br>
                 *Path to classified output Pointcloud (will be .txt)*
-* **-out_shp    [PATH TO OUTPUT SHP FILE]** (required)<br>
+ **-out_shp    [PATH TO OUTPUT SHP FILE]** (required)<br>
                 *Path to output .shp file for crater bounding boxes*
-* **-method     ["Filter", "DecisionTree", "RandomForest"]** default="Filter" (optional)<br>
+ **-method     ["Filter", "DecisionTree", "RandomForest"]** default="Filter" (optional)<br>
                 *Method to apply: Filter, Decision Tree Classifier or Random Forest Classifier*
-* **-clip      [BOOLEAN]** default=False (optional)<br>
+ **-clip      [BOOLEAN]** default=False (optional)<br>
                  *Should the input Pointcloud be clipped?*
-* **-extent     [xmin, ymin, xmax, ymax]** (optional)<br>
+ **-extent     [xmin, ymin, xmax, ymax]** (optional)<br>
                   *IF Pointcloud should be clipped. This is the extent*
-* **-keep_tmp   [BOOLEAN]** default=False (optional)<br>
+ **-keep_tmp   [BOOLEAN]** default=False (optional)<br>
                   *should temporary files be stored or deleted after finishing? Will be in tmp directory*
-* **-speed      ["Slow", "Fast"]** default=Slow (optional)<br>
+ **-speed      ["Slow", "Fast"]** default=Slow (optional)<br>
                   *Slow: will classify the craters and fill the segments to the whole form.*<br>
                   *Fast: will identify craters and not fill the segments to the whole form*
 
