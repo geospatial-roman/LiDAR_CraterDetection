@@ -10,12 +10,14 @@
 
 
 * -infile     [PATH TO INPUT FILE] (required)
+               *Path to the input Pointcloud in any pointcloud format (.las, .txt, ...)*
 * -outfile    [PATH TO OUTPUT FILE] (required)
 * -out_shp    [PATH TO OUTPUT SHP FILE] (required)
 * -method     ["Filter", "DecisionTree", "RandomForest"] default="Filter" (optional)
 * -clip       [BOOLEAN] default=False (optional)
 * -extent     [xmin, ymin, xmax, ymax] (optional)
 * -keep_tmp   [BOOLEAN] default=False (optional)
+* -speed      ["Slow", "Fast"] default=Slow (optional)
 
 Example Usage:
 
