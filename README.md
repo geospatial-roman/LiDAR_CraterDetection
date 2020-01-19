@@ -13,7 +13,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to the input Pointcloud in any pointcloud format (.las, .txt, ...)*<br>
 
  **-outfile    [PATH TO OUTPUT FILE]** (required)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to classified output Pointcloud (will be .txt)*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to classified output Pointcloud (currently limited to .txt)*<br>
 
  **-out_shp    [PATH TO OUTPUT SHP FILE]** (required)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Path to output .shp file for crater bounding boxes*<br>
